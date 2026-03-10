@@ -34,7 +34,7 @@ try:
 except Exception as e:
     print(f"Skipping local uploads mount: {e}")
 
-# ─── Health check ───
+
 @app.get("/")
 def read_root():
     return {"status": "ok", "message": "Welcome to EcoClean API"}
