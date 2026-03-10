@@ -28,8 +28,8 @@ app.include_router(users.router)
 app.include_router(contact.router)
 app.include_router(admin.router)
 
-# ─── Static file uploads ───
-# Note: Vercel is read-only. We only create 'uploads' if we're not on Vercel or in a writable environment.
+
+
 try:
     if not os.path.exists("uploads"):
         os.makedirs("uploads", exist_ok=True)
