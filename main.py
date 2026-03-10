@@ -5,10 +5,13 @@ from db import engine, Base
 from routers import auth, events, users, contact, admin
 import os
 
-# Create tables on startup
-Base.metadata.create_all(bind=engine)
-
 app = FastAPI(title="EcoClean API", version="1.0.0")
+
+# Create tables on startup (wrapped in try/except for Vercel stability)
+try:
+    Base.metadata.create_all(bind=engine)
+except Exception as e:
+    print(f"Database table creation skipped or failed: {e}")
 
 # CORS = Allow your frontend to talk to your backend.
 app.add_middleware(
