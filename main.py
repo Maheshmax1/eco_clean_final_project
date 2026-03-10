@@ -26,9 +26,13 @@ app.include_router(contact.router)
 app.include_router(admin.router)
 
 # ─── Static file uploads ───
-if not os.path.exists("uploads"):
-    os.makedirs("uploads")
-app.mount("/uploads", StaticFiles(directory="uploads"), name="uploads")
+# Note: Vercel is read-only. We only create 'uploads' if we're not on Vercel or in a writable environment.
+try:
+    if not os.path.exists("uploads"):
+        os.makedirs("uploads", exist_ok=True)
+    app.mount("/uploads", StaticFiles(directory="uploads"), name="uploads")
+except Exception as e:
+    print(f"Skipping local uploads mount: {e}")
 
 # ─── Health check ───
 @app.get("/")
